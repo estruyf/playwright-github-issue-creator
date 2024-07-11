@@ -56,7 +56,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 - name: Playwright issue creator
   uses: estruyf/playwright-github-issue-creator@v1
   with:
-    report-file: results.json
+    report-path: results.json
 ```
 
 The following example shows the full configuration to use the GitHub Action:
@@ -66,7 +66,7 @@ The following example shows the full configuration to use the GitHub Action:
   uses: estruyf/playwright-github-issue-creator@v1
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
-    report-file: results.json
+    report-path: results.json
     issue-prefix: 'E2E: '
     issue-labels: 'playwright, bug'
     issue-footer: '> Custom footer message'
