@@ -4,7 +4,7 @@
   "description": "Automatically create GitHub issues for your failed Playwright E2E tests",
   "main": "dist/index.js",
   "scripts": {
-    "bundle": "npm run package -- --minify",
+    "bundle": "npm run package",
     "package": "rm -rf dist && npx @vercel/ncc build src/index.ts -o dist --license licenses.txt",
     "start": "npm run package -- --source-map && node --env-file=.env dist/index.js",
     "release": "./scripts/release"
