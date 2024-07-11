@@ -45,13 +45,30 @@ Or you can create your own Personal Access Token (PAT) with the following permis
 
 ## Usage
 
-The following example shows how you can use this action:
+The following example shows the minimal configuration to use the GitHub Action:
 
 ```yaml
 - name: Playwright issue creator
   uses: estruyf/playwright-github-issue-creator@v1
   with:
     report-file: results.json
+```
+
+The following example shows the full configuration to use the GitHub Action:
+
+```yaml
+- name: Playwright issue creator
+  uses: estruyf/playwright-github-issue-creator@v1
+  with:
+    github-token: ${{ secrets.PAT_TOKEN }}
+    report-file: results.json
+    issue-prefix: 'E2E: '
+    issue-labels: 'playwright, bug'
+    issue-footer: '> Custom footer message'
+    add-project-label: true
+    add-comment: true
+    job-summary: true
+    quite: false
 ```
 
 <br />

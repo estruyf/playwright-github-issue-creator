@@ -24,7 +24,9 @@ const reportAnalyzer = async () => {
   const reportPath = getInput("report-path", { required: true });
   const issuePrefix = getInput("issue-prefix");
   const issueLabels = getInput("issue-labels")
-    ? getInput("issue-labels").split(",")
+    ? getInput("issue-labels")
+        .split(",")
+        .map((label) => label.trim())
     : [];
   const issueFooter =
     getInput("issue-footer") ||
