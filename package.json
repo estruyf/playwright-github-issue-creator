@@ -1,6 +1,6 @@
 {
   "name": "playwright-github-issue-creator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Automatically create GitHub issues for your failed Playwright E2E tests",
   "main": "dist/index.js",
   "scripts": {
