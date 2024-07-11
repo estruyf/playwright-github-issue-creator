@@ -1,6 +1,6 @@
 # Playwright issue creator
 
-[![Check dist/](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml)
+[![Check Transpiled JavaScript](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/check-dist.yml/badge.svg)](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/check-dist.yml)
 
 This GitHub Action creates issues for failed tests in Playwright.
 
