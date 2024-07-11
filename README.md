@@ -43,6 +43,11 @@ jobs:
       issues: write
 ```
 
+> [!NOTE]
+> You can find more information about the GitHub token permissions [here](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs#defining-access-for-the-github_token-scopes).
+
+```yaml
+
 Or you can create your own Personal Access Token (PAT) with the following permissions `issues` -> `read & write` and provide it to the `github-token` input.
 
 ## Usage
