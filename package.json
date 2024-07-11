@@ -1,0 +1,41 @@
+{
+  "name": "playwright-github-issue-creator",
+  "version": "0.0.1",
+  "description": "Automatically create GitHub issues for your failed Playwright E2E tests",
+  "main": "dist/index.js",
+  "scripts": {
+    "bundle": "npm run package",
+    "package": "rm -rf dist && npx @vercel/ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "start": "npm run package && node --env-file=.env dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estruyf/playwright-github-issue-creator.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/estruyf"
+  },
+  "keywords": [
+    "E2E",
+    "GitHub",
+    "Actions",
+    "github-action"
+  ],
+  "author": "Elio Struyf <elio@struyfconsulting.be>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/estruyf/playwright-github-issue-creator/issues"
+  },
+  "homepage": "https://github.com/estruyf/playwright-github-issue-creator#readme",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.7",
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "ansi-to-html": "^0.7.2"
+  }
+}
