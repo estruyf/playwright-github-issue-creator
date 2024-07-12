@@ -19,9 +19,10 @@ The GitHub Action can be configured with the following inputs:
 | Name | Description | Type | Required | Default |
 | --- | --- | --- | --- | --- |
 | `github-token` | GitHub token to create the issue | `string` | `true` | `${{ github.token }}` |
-| `report-file` | Path to the Playwright JSON report file | `string` | `true` | - |
+| `report-path` | Path to the Playwright JSON report file | `string` | `true` | - |
 | `issue-prefix` | Prefix for the issue title | `string` | `false` | - |
-| `issue-labels` | Labels to add to the issue | `string` | `false` | - |
+| `issue-labels` | Labels to add to the issue (comma-separated) | `string` | `false` | - |
+| `issue-assignees` | Assignees to add to the issue (comma-separated) | `string` | `false` | - |
 | `issue-footer` | Footer to add to the issue | `string` | `false` | `> This issue was created by the Playwright issue creator action.` |
 | `add-project-label` | Add the project name as a label | `boolean` | `false` | `false` |
 | `add-comment` | Add a comment to the issue if the issue already exists | `boolean` | `false` | `false` |
@@ -55,7 +56,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 ```yaml
 - name: Playwright issue creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1
+  uses: estruyf/playwright-github-issue-creator@v1.0.1
   with:
     report-path: results.json
 ```
@@ -65,7 +66,7 @@ The following example shows the full configuration to use the GitHub Action:
 ```yaml
 - name: Playwright issue creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1
+  uses: estruyf/playwright-github-issue-creator@v1.0.1
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
     report-path: results.json

@@ -24,6 +24,9 @@ inputs:
     description: 'The footer to add to the issue.'
     required: false
     default: '> This issue was created by the Playwright issue creator action.'
+  issue-assignees:
+    description: 'The assignees to add to the issue (comma-separated).'
+    required: false
   add-project-label:
     description: 'Add the project label to the issue.'
     required: false

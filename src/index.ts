@@ -1,54 +1,32 @@
 import { readFile } from "fs/promises";
 import { resolve } from "path";
-import { JSONReport } from "./models";
+import { FailedTestInfo, JSONReport } from "./models";
 import {
-  createIssueBody,
+  createComment,
+  createList,
+  createNewIssue,
   fileExists,
   getAllFailedTests,
+  getConfiguration,
   getLastResultError,
 } from "./utils";
 import { context, getOctokit } from "@actions/github";
-import {
-  debug,
-  getBooleanInput,
-  getInput,
-  info,
-  error,
-  setFailed,
-  summary,
-} from "@actions/core";
+import { info, setFailed, summary } from "@actions/core";
 
 const reportAnalyzer = async () => {
   // Action configuration
-  const token = getInput("github-token");
-  const reportPath = getInput("report-path", { required: true });
-  const issuePrefix = getInput("issue-prefix");
-  const issueLabels = getInput("issue-labels")
-    ? getInput("issue-labels")
-        .split(",")
-        .map((label) => label.trim())
-    : [];
-  const issueFooter =
-    getInput("issue-footer") ||
-    `> This issue was created by the Playwright issue creator action.`;
-  const addProjectLabel = getInput("add-project-label")
-    ? getBooleanInput("add-project-label")
-    : false;
-  const addComment = getInput("add-comment")
-    ? getBooleanInput("add-comment")
-    : false;
-  const createSummary = getInput("job-summary")
-    ? getBooleanInput("job-summary")
-    : true;
-  const quite = getInput("quite") ? getBooleanInput("quite") : false;
-
-  // Debug configuration
-  debug(`report-path: ${reportPath}`);
-  debug(`issue-prefix: ${issuePrefix}`);
-  debug(`issue-labels: ${issueLabels.join(",")}`);
-  debug(`issue-footer: ${issueFooter}`);
-  debug(`add-project-label: ${addProjectLabel}`);
-  debug(`add-comment: ${addComment}`);
+  const {
+    addComment,
+    addProjectLabel,
+    createSummary,
+    issueAssignees,
+    issueFooter,
+    issueLabels,
+    issuePrefix,
+    quite,
+    reportPath,
+    token,
+  } = getConfiguration();
 
   if (!token) {
     throw new Error("github-token is not set");
@@ -96,7 +74,7 @@ const reportAnalyzer = async () => {
     state: "open", // Only open issues
   });
 
-  const failedTestInfo = allFailedTests
+  const failedTestInfo: FailedTestInfo[] = allFailedTests
     .map(({ specTitle, suiteTilte, file, test }) => {
       const lastResult = getLastResultError(test);
       return {
@@ -123,66 +101,33 @@ const reportAnalyzer = async () => {
 
     // Check if the test is already reported
     if (issue) {
-      // Add a comment to the issue
-      if (!addComment) {
-        continue;
-      }
-
-      if (!quite) {
-        info(`Adding comment to issue: ${failedTest.title}`);
-      }
-
-      try {
-        const comment = await octokit.rest.issues.createComment({
-          owner,
-          repo,
-          issue_number: issue.number,
-          body: createIssueBody(failedTest, issueFooter),
-        });
-
-        if (comment.data.html_url) {
-          comments.push(comment.data.html_url);
-        }
-      } catch (_) {
-        error(`Failed to add comment to issue: ${failedTest.title}`);
+      const commentUrl = await createComment(
+        octokit,
+        owner,
+        repo,
+        issue.number,
+        failedTest,
+        addComment,
+        issueFooter,
+        quite
+      );
+      if (commentUrl) {
+        comments.push(commentUrl);
       }
     } else {
-      // Create a new issue
-      if (!quite) {
-        info(`Creating issue: ${failedTest.title}`);
-      }
-
-      try {
-        const newIssue = await octokit.rest.issues.create({
-          owner,
-          repo,
-          title: failedTest.title,
-          labels: issueLabels,
-          body: createIssueBody(failedTest, issueFooter),
-        });
-
-        if (newIssue.data.html_url) {
-          comments.push(newIssue.data.html_url);
-        }
-
-        if (newIssue.data.number && addProjectLabel) {
-          if (!quite) {
-            info(`Adding project labels to issue: ${failedTest.title}`);
-          }
-
-          try {
-            await octokit.rest.issues.addLabels({
-              owner,
-              repo,
-              issue_number: newIssue.data.number,
-              labels: [failedTest.projectName],
-            });
-          } catch (_) {
-            error(`Failed to add project labels to issue: ${failedTest.title}`);
-          }
-        }
-      } catch (_) {
-        error(`Failed to create issue: ${failedTest.title}`);
+      const issueUrl = await createNewIssue(
+        octokit,
+        owner,
+        repo,
+        failedTest,
+        issueLabels,
+        issueFooter,
+        issueAssignees,
+        addProjectLabel,
+        quite
+      );
+      if (issueUrl) {
+        newIssues.push(issueUrl);
       }
     }
   }
@@ -190,12 +135,12 @@ const reportAnalyzer = async () => {
   if (createSummary) {
     if (newIssues.length > 0) {
       summary.addHeading("New Issues", 2);
-      summary.addList(newIssues);
+      summary.addRaw(createList(newIssues));
     }
 
     if (comments.length > 0) {
       summary.addHeading("Issue comments", 2);
-      summary.addList(comments);
+      summary.addRaw(createList(comments));
     }
 
     await summary.write();
