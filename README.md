@@ -56,7 +56,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 ```yaml
 - name: Playwright issue creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1.0.1
+  uses: estruyf/playwright-github-issue-creator@v1.1.0
   with:
     report-path: results.json
 ```
@@ -66,7 +66,7 @@ The following example shows the full configuration to use the GitHub Action:
 ```yaml
 - name: Playwright issue creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1.0.1
+  uses: estruyf/playwright-github-issue-creator@v1.1.0
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
     report-path: results.json
