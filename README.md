@@ -1,10 +1,10 @@
-# Playwright issue creator
+# Playwright Issue Creator
 
 [![Action checks](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml/badge.svg)](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml)
 
 This GitHub Action creates issues for failed tests in Playwright.
 
-![Playwright issue creator](./assets/example-issue.png)
+![Playwright Issue Creator](./assets/example-issue.png)
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ The GitHub Action can be configured with the following inputs:
 | `issue-prefix` | Prefix for the issue title | `string` | `false` | - |
 | `issue-labels` | Labels to add to the issue (comma-separated) | `string` | `false` | - |
 | `issue-assignees` | Assignees to add to the issue (comma-separated) | `string` | `false` | - |
-| `issue-footer` | Footer to add to the issue | `string` | `false` | `> This issue was created by the Playwright issue creator action.` |
+| `issue-footer` | Footer to add to the issue | `string` | `false` | `> This issue was created by the Playwright Issue Creator action.` |
 | `add-project-label` | Add the project name as a label | `boolean` | `false` | `false` |
 | `add-comment` | Add a comment to the issue if the issue already exists | `boolean` | `false` | `false` |
 | `job-summary` | Add the issue information to the job summary | `boolean` | `false` | `true` |
@@ -56,7 +56,7 @@ Or you can create your own Personal Access Token (PAT) with the following permis
 The following example shows the minimal configuration to use the GitHub Action:
 
 ```yaml
-- name: Playwright issue creator
+- name: Playwright Issue Creator
   if: always() # Always run the action
   uses: estruyf/playwright-github-issue-creator@v1.1.0
   with:
@@ -66,7 +66,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 The following example shows the full configuration to use the GitHub Action:
 
 ```yaml
-- name: Playwright issue creator
+- name: Playwright Issue Creator
   if: always() # Always run the action
   uses: estruyf/playwright-github-issue-creator@v1.1.0
   with:
