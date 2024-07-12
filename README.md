@@ -4,6 +4,8 @@
 
 This GitHub Action creates issues for failed tests in Playwright.
 
+![Playwright issue creator](./assets/example-issue.png)
+
 ## Prerequisites
 
 This GitHub Action uses the JSON report from the [Playwright JSON reporter](https://playwright.dev/docs/test-reporters#json-reporter). You can generate this report by running your tests with the following command:
