@@ -1,13 +1,13 @@
 import { error, info } from "@actions/core";
 import { GitHub } from "@actions/github/lib/utils";
-import { FailedTestInfo } from "models";
+import { TestInfo } from "../models";
 import { createIssueBody } from ".";
 
 export const createNewIssue = async (
   octokit: InstanceType<typeof GitHub>,
   owner: string,
   repo: string,
-  test: FailedTestInfo,
+  test: TestInfo,
   issueLabels: string[],
   issueFooter: string,
   issueAssignees: string[],
@@ -16,7 +16,7 @@ export const createNewIssue = async (
 ): Promise<string | undefined> => {
   // Create a new issue
   if (!quite) {
-    info(`Creating issue: ${test.title}`);
+    info(`Creating issue: ${test.issueTitle}`);
   }
 
   let issueUrl: string | undefined;
@@ -25,9 +25,10 @@ export const createNewIssue = async (
     const newIssue = await octokit.rest.issues.create({
       owner,
       repo,
-      title: test.title,
+      title: test.issueTitle,
       labels: issueLabels,
       body: createIssueBody(test, issueFooter),
+      assignees: issueAssignees,
     });
 
     if (newIssue.data.html_url) {
@@ -36,7 +37,7 @@ export const createNewIssue = async (
 
     if (newIssue.data.number && addProjectLabel) {
       if (!quite) {
-        info(`Adding project labels to issue: ${test.title}`);
+        info(`Adding project labels to issue: ${test.issueTitle}`);
       }
 
       try {
@@ -47,22 +48,11 @@ export const createNewIssue = async (
           labels: [test.projectName],
         });
       } catch (_) {
-        error(`Failed to add project labels to issue: ${test.title}`);
-      }
-
-      try {
-        await octokit.rest.issues.addAssignees({
-          owner,
-          repo,
-          issue_number: newIssue.data.number,
-          assignees: issueAssignees,
-        });
-      } catch (_) {
-        error(`Failed to add assignees to issue: ${test.title}`);
+        error(`Failed to add project labels to issue: ${test.issueTitle}`);
       }
     }
   } catch (_) {
-    error(`Failed to create issue: ${test.title}`);
+    error(`Failed to create issue: ${test.issueTitle}`);
   }
 
   return issueUrl;

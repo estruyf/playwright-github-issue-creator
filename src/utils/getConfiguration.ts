@@ -27,6 +27,12 @@ export const getConfiguration = () => {
   const createSummary = getInput(VARIABLES.jobSummary)
     ? getBooleanInput(VARIABLES.jobSummary)
     : true;
+  const closeOnSuccess = getInput(VARIABLES.closeOnSuccess)
+    ? getBooleanInput(VARIABLES.closeOnSuccess)
+    : true;
+  const closeOnSuccessMsg =
+    getInput(VARIABLES.closeOnSuccessMsg) ||
+    "This issue was automatically closed after the test passed.";
   const quite = getInput(VARIABLES.quite)
     ? getBooleanInput(VARIABLES.quite)
     : false;
@@ -39,6 +45,8 @@ export const getConfiguration = () => {
   debug(`${VARIABLES.issueFooter}: ${issueFooter}`);
   debug(`${VARIABLES.addProjectLabel}: ${addProjectLabel}`);
   debug(`${VARIABLES.addComment}: ${addComment}`);
+  debug(`${VARIABLES.closeOnSuccess}: ${closeOnSuccess}`);
+  debug(`${VARIABLES.closeOnSuccessMsg}: ${closeOnSuccessMsg}`);
   debug(`${VARIABLES.jobSummary}: ${createSummary}`);
   debug(`${VARIABLES.quite}: ${quite}`);
 
@@ -51,6 +59,8 @@ export const getConfiguration = () => {
     issueFooter,
     addProjectLabel,
     addComment,
+    closeOnSuccess,
+    closeOnSuccessMsg,
     createSummary,
     quite,
   };

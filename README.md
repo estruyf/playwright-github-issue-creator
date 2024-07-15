@@ -28,6 +28,8 @@ The GitHub Action can be configured with the following inputs:
 | `issue-footer` | Footer to add to the issue | `string` | `false` | `> This issue was created by the Playwright Issue Creator action.` |
 | `add-project-label` | Add the project name as a label | `boolean` | `false` | `false` |
 | `add-comment` | Add a comment to the issue if the issue already exists | `boolean` | `false` | `false` |
+| `close-on-success` | Close the issue when the next test run is successful | `boolean` | `false` | `false` |
+| `close-on-success-msg` | Message to add when closing the issue | `string` | `false` | `This issue was automatically closed after the test passed.` |
 | `job-summary` | Add the issue information to the job summary | `boolean` | `false` | `true` |
 | `quite` | Do not log any information | `boolean` | `false` | `false` |
 
@@ -58,7 +60,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 ```yaml
 - name: Playwright Issue Creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1.1.0
+  uses: estruyf/playwright-github-issue-creator@v1.2.0
   with:
     report-path: results.json
 ```
@@ -68,15 +70,18 @@ The following example shows the full configuration to use the GitHub Action:
 ```yaml
 - name: Playwright Issue Creator
   if: always() # Always run the action
-  uses: estruyf/playwright-github-issue-creator@v1.1.0
+  uses: estruyf/playwright-github-issue-creator@v1.2.0
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
     report-path: results.json
     issue-prefix: 'E2E: '
     issue-labels: 'playwright, bug'
+    issue-assignees: 'estruyf'
     issue-footer: '> Custom footer message'
     add-project-label: true
     add-comment: true
+    close-on-success: true
+    close-on-success-msg: "Automatically closing after successful test run"
     job-summary: true
     quite: false
 ```

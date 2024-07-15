@@ -13,6 +13,6 @@
     "moduleResolution": "nodenext",
     "baseUrl": "src",
     "outDir": "dist",
-    "esModuleInterop": true,
-  },
+    "esModuleInterop": true
+  }
 }

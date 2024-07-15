@@ -1,17 +1,7 @@
 import Convert from "ansi-to-html";
-import { TestAnnotation, TestError } from "models";
+import { TestInfo } from "models";
 
-export const createIssueBody = (
-  test: {
-    title: string;
-    file: string;
-    projectName: string;
-    annotations: TestAnnotation[];
-    retries: number;
-    error?: TestError;
-  },
-  issueFooter?: string
-) => {
+export const createIssueBody = (test: TestInfo, issueFooter?: string) => {
   const convert = new Convert();
 
   const body: string[] = [];

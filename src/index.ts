@@ -1,14 +1,14 @@
 import { readFile } from "fs/promises";
 import { resolve } from "path";
-import { FailedTestInfo, JSONReport } from "./models";
+import { JSONReport } from "./models";
 import {
+  closeIssue,
   createComment,
   createList,
   createNewIssue,
   fileExists,
-  getAllFailedTests,
+  getAllTests,
   getConfiguration,
-  getLastResultError,
 } from "./utils";
 import { context, getOctokit } from "@actions/github";
 import { info, setFailed, summary } from "@actions/core";
@@ -18,6 +18,8 @@ const reportAnalyzer = async () => {
   const {
     addComment,
     addProjectLabel,
+    closeOnSuccess,
+    closeOnSuccessMsg,
     createSummary,
     issueAssignees,
     issueFooter,
@@ -62,9 +64,11 @@ const reportAnalyzer = async () => {
     throw new Error("Failed to parse report file");
   }
 
-  const allFailedTests = getAllFailedTests(report);
+  const allTests = getAllTests(report, issuePrefix);
+  let failedTests = allTests.filter((test) => test.failed);
+  let successfulTests = allTests.filter((test) => !test.failed);
   if (!quite) {
-    info(`Total failed tests: ${allFailedTests.length}`);
+    info(`Total failed tests: ${failedTests.length}`);
   }
 
   // Get all issues
@@ -74,30 +78,23 @@ const reportAnalyzer = async () => {
     state: "open", // Only open issues
   });
 
-  const failedTestInfo: FailedTestInfo[] = allFailedTests
-    .map(({ specTitle, suiteTilte, file, test }) => {
-      const lastResult = getLastResultError(test);
-      return {
-        title: `${
-          issuePrefix ? `${issuePrefix} ` : ""
-        }${suiteTilte} - ${specTitle} (${test.projectName})`,
-        file: file,
-        projectName: test.projectName,
-        annotations: test.annotations,
-        retries: (test.results || []).length,
-        error: lastResult,
-      };
-    })
-    .filter(
-      // Filter out the unique titles
-      (failedTest, index, self) =>
-        index === self.findIndex((t) => t.title === failedTest.title)
-    );
+  // Filter out the unique titles
+  failedTests = failedTests.filter(
+    (failedTest, index, self) =>
+      index === self.findIndex((t) => t.issueTitle === failedTest.issueTitle)
+  );
+  successfulTests = successfulTests.filter(
+    (successfulTest, index, self) =>
+      index ===
+      self.findIndex((t) => t.issueTitle === successfulTest.issueTitle)
+  );
 
   let comments: string[] = [];
   let newIssues: string[] = [];
-  for (const failedTest of failedTestInfo) {
-    const issue = issues.data.find((issue) => issue.title === failedTest.title);
+  for (const failedTest of failedTests) {
+    const issue = issues.data.find(
+      (issue) => issue.title === failedTest.issueTitle
+    );
 
     // Check if the test is already reported
     if (issue) {
@@ -128,6 +125,24 @@ const reportAnalyzer = async () => {
       );
       if (issueUrl) {
         newIssues.push(issueUrl);
+      }
+    }
+  }
+
+  if (closeOnSuccess && successfulTests.length > 0) {
+    for (const successfulTest of successfulTests) {
+      const issue = issues.data.find(
+        (issue) => issue.title === successfulTest.issueTitle
+      );
+      if (issue && issue.number) {
+        await closeIssue(
+          octokit,
+          owner,
+          repo,
+          issue.number,
+          closeOnSuccessMsg,
+          quite
+        );
       }
     }
   }

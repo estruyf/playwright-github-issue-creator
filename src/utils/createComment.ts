@@ -1,6 +1,6 @@
 import { error, info } from "@actions/core";
 import { GitHub } from "@actions/github/lib/utils";
-import { FailedTestInfo } from "models";
+import { TestInfo } from "models";
 import { createIssueBody } from "./createIssueBody";
 
 export const createComment = async (
@@ -8,7 +8,7 @@ export const createComment = async (
   owner: string,
   repo: string,
   issueNr: number,
-  test: FailedTestInfo,
+  test: TestInfo,
   addComment: boolean,
   issueFooter: string,
   quite: boolean
@@ -19,7 +19,7 @@ export const createComment = async (
   }
 
   if (!quite) {
-    info(`Adding comment to issue: ${test.title}`);
+    info(`Adding comment to issue: ${test.issueTitle}`);
   }
 
   let issueUrl: string | undefined;
@@ -36,7 +36,7 @@ export const createComment = async (
       issueUrl = comment.data.html_url;
     }
   } catch (_) {
-    error(`Failed to add comment to issue: ${test.title}`);
+    error(`Failed to add comment to issue: ${test.issueTitle}`);
   }
 
   return issueUrl;
