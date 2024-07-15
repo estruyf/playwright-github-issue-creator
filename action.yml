@@ -33,6 +33,13 @@ inputs:
   add-comment:
     description: 'Add a comment to the issue if the issue already exists.'
     required: false
+  close-on-success:
+    description: 'Close the issue when the next test run is successful.'
+    required: false
+  close-on-success-msg:
+    description: 'The message to add when closing the issue.'
+    required: false
+    default: 'This issue was automatically closed after the test passed.'
   job-summary:
     description: 'Add the issue information to the job summary.'
     required: false
