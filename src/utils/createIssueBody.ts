@@ -1,3 +1,4 @@
+import { context } from "@actions/github";
 import Convert from "ansi-to-html";
 import { TestInfo } from "models";
 
@@ -33,6 +34,18 @@ export const createIssueBody = (test: TestInfo, issueFooter?: string) => {
     body.push("## Error details");
     body.push("");
     body.push(convert.toHtml(test.error.message));
+  }
+
+  const {
+    repo: { owner, repo },
+    runId,
+    serverUrl,
+  } = context;
+  if (serverUrl && runId && owner && repo) {
+    body.push("");
+    body.push(
+      `[View workflow run](${serverUrl}/${owner}/${repo}/actions/runs/${runId})`
+    );
   }
 
   if (issueFooter) {

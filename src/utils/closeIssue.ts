@@ -32,7 +32,6 @@ export const closeIssue = async (
       repo,
       issue_number: issueNr,
       state: "closed",
-      body: closeOnSuccessMsg,
     });
   } catch (_) {
     error(`Failed to close issue: ${issueNr}`);
