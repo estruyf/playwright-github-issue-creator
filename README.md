@@ -1,6 +1,6 @@
 # Playwright Issue Creator
 
-[![Action checks](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml/badge.svg)](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml)
+[![Action checks](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml/badge.svg)](https://github.com/estruyf/playwright-github-issue-creator/actions/workflows/checks.yml) [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Festruyf%2Fplaywright-github-issue-creator&countColor=%23263759&style=plastic)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Festruyf%2Fplaywright-github-issue-creator)
 
 This GitHub Action creates issues for failed tests in Playwright.
 
@@ -85,7 +85,3 @@ The following example shows the full configuration to use the GitHub Action:
     job-summary: true
     quite: false
 ```
-
-<br />
-
-[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Festruyf%2Fplaywright-github-issue-creator&countColor=%23263759)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Festruyf%2Fplaywright-github-issue-creator)
