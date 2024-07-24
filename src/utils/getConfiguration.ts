@@ -17,7 +17,7 @@ export const getConfiguration = () => {
     : [];
   const issueFooter =
     getInput(VARIABLES.issueFooter) ||
-    `> This issue was created by the Playwright issue creator action.`;
+    `> This issue was created by the Playwright Issue Creator action.`;
   const addProjectLabel = getInput(VARIABLES.addProjectLabel)
     ? getBooleanInput(VARIABLES.addProjectLabel)
     : false;

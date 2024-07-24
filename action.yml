@@ -1,4 +1,4 @@
-name: Playwright issue creator
+name: Playwright Issue Creator
 description: This GitHub Action creates issues for failed tests in Playwright.
 author: Elio Struyf <elio@struyfconsulting.be>
 
@@ -23,7 +23,7 @@ inputs:
   issue-footer:
     description: 'The footer to add to the issue.'
     required: false
-    default: '> This issue was created by the Playwright issue creator action.'
+    default: '> This issue was created by the Playwright Issue Creator action.'
   issue-assignees:
     description: 'The assignees to add to the issue (comma-separated).'
     required: false
