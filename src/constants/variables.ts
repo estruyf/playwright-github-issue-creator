@@ -13,4 +13,8 @@ export const VARIABLES = {
   quite: "quite",
   azureContainerUrl: "azure_container_url",
   azureContainerSas: "azure_container_sas",
+  s3BucketName: "s3_bucket_name",
+  s3BucketRegion: "s3_bucket_region",
+  s3AccessKey: "s3_access_key",
+  s3SecretKey: "s3_secret_key",
 };

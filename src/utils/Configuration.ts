@@ -11,6 +11,10 @@ export class Configuration {
     const issuePrefix = getInput(VARIABLES.issuePrefix);
     const azureContainerSas = getInput(VARIABLES.azureContainerSas);
     const azureContainerUrl = getInput(VARIABLES.azureContainerUrl);
+    const s3AccessKey = getInput(VARIABLES.s3AccessKey);
+    const s3BucketName = getInput(VARIABLES.s3BucketName);
+    const s3BucketRegion = getInput(VARIABLES.s3BucketRegion);
+    const s3SecretKey = getInput(VARIABLES.s3SecretKey);
     const issueLabels: string[] = getInput(VARIABLES.issueLabels)
       ? getInput(VARIABLES.issueLabels)
           .split(",")
@@ -54,8 +58,16 @@ export class Configuration {
     debug(`${VARIABLES.closeOnSuccess}: ${closeOnSuccess}`);
     debug(`${VARIABLES.closeOnSuccessMsg}: ${closeOnSuccessMsg}`);
     debug(`${VARIABLES.jobSummary}: ${createSummary}`);
-    debug(`${VARIABLES.azureContainerSas}: ${azureContainerSas}`);
     debug(`${VARIABLES.azureContainerUrl}: ${azureContainerUrl}`);
+    debug(
+      `${VARIABLES.azureContainerSas}: ${
+        azureContainerSas ? "*****" : "NOT DEFINED"
+      }`
+    );
+    debug(`${VARIABLES.s3AccessKey}: ${s3AccessKey}`);
+    debug(`${VARIABLES.s3BucketName}: ${s3BucketName}`);
+    debug(`${VARIABLES.s3BucketRegion}: ${s3BucketRegion}`);
+    debug(`${VARIABLES.s3SecretKey}: ${s3SecretKey ? "*****" : "NOT DEFINED"}`);
     debug(`${VARIABLES.quite}: ${quite}`);
 
     this._config = {
@@ -72,6 +84,10 @@ export class Configuration {
       createSummary,
       azureContainerSas,
       azureContainerUrl,
+      s3AccessKey,
+      s3BucketName,
+      s3BucketRegion,
+      s3SecretKey,
       quite,
     };
   }

@@ -10,7 +10,11 @@ export interface Config {
   closeOnSuccess: boolean;
   closeOnSuccessMsg: string;
   createSummary: boolean;
-  azureContainerSas: string;
-  azureContainerUrl: string;
+  azureContainerSas?: string;
+  azureContainerUrl?: string;
+  s3BucketName?: string;
+  s3BucketRegion?: string;
+  s3AccessKey?: string;
+  s3SecretKey?: string;
   quite: boolean;
 }
