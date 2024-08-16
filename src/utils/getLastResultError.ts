@@ -6,9 +6,9 @@ export const getLastResultError = (test: JSONReportTest) => {
   }
 
   const lastResult = test.results[test.results.length - 1];
-  if (!lastResult.error) {
+  if (!lastResult) {
     return;
   }
 
-  return lastResult.error;
+  return lastResult;
 };

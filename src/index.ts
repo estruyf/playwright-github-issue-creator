@@ -3,18 +3,19 @@ import { resolve } from "path";
 import { JSONReport } from "./models";
 import {
   closeIssue,
+  Configuration,
   createComment,
   createList,
   createNewIssue,
   fileExists,
   getAllTests,
-  getConfiguration,
 } from "./utils";
 import { context, getOctokit } from "@actions/github";
 import { info, setFailed, summary } from "@actions/core";
 
 const reportAnalyzer = async () => {
   // Action configuration
+  Configuration.initialize();
   const {
     addComment,
     addProjectLabel,
@@ -28,7 +29,7 @@ const reportAnalyzer = async () => {
     quite,
     reportPath,
     token,
-  } = getConfiguration();
+  } = Configuration.config;
 
   if (!token) {
     throw new Error("github-token is not set");

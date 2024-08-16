@@ -23,12 +23,14 @@ export const getAllTests = (report: JSONReport, issuePrefix?: string) => {
             test.status !== test.expectedStatus && test.status === "unexpected",
           projectName: test.projectName,
           annotations: test.annotations,
-          error: lastResult,
+          error: lastResult?.error,
+          attachments: lastResult?.attachments || [],
           retries: test.results.length,
           test,
         });
       }
     }
+
     if (suite.suites) {
       for (const childSuite of suite.suites) {
         addTests(childSuite);

@@ -4,3 +4,6 @@ node_modules
 results.json
 results.success.json
 summary.md
+
+test-files
+test-results

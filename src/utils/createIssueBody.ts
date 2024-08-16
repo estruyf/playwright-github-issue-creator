@@ -2,7 +2,11 @@ import { context } from "@actions/github";
 import Convert from "ansi-to-html";
 import { TestInfo } from "models";
 
-export const createIssueBody = (test: TestInfo, issueFooter?: string) => {
+export const createIssueBody = (
+  test: TestInfo,
+  mediaFiles: { name: string; url: string }[],
+  issueFooter?: string
+) => {
   const convert = new Convert();
 
   const body: string[] = [];
@@ -34,6 +38,17 @@ export const createIssueBody = (test: TestInfo, issueFooter?: string) => {
     body.push("## Error details");
     body.push("");
     body.push(convert.toHtml(test.error.message));
+  }
+
+  if (mediaFiles.length > 0) {
+    body.push("## Attachments");
+    body.push("");
+
+    for (const file of mediaFiles) {
+      body.push(`![${file.name}](${file.url})`);
+      body.push(`<p align="center"><b>${file.name}</b></p>`);
+      body.push("");
+    }
   }
 
   const {

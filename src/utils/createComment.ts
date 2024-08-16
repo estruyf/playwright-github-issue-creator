@@ -2,6 +2,7 @@ import { error, info } from "@actions/core";
 import { GitHub } from "@actions/github/lib/utils";
 import { TestInfo } from "models";
 import { createIssueBody } from "./createIssueBody";
+import { processAttachments } from "./processAttachments";
 
 export const createComment = async (
   octokit: InstanceType<typeof GitHub>,
@@ -25,11 +26,14 @@ export const createComment = async (
   let issueUrl: string | undefined;
 
   try {
+    const mediaFiles: { name: string; url: string }[] =
+      (await processAttachments(test.attachments)) || [];
+
     const comment = await octokit.rest.issues.createComment({
       owner,
       repo,
       issue_number: issueNr,
-      body: createIssueBody(test, issueFooter),
+      body: createIssueBody(test, mediaFiles, issueFooter),
     });
 
     if (comment.data.html_url) {

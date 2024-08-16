@@ -1,3 +1,4 @@
+export * from "./Configuration";
 export * from "./closeIssue";
 export * from "./createComment";
 export * from "./createIssueBody";
@@ -6,5 +7,5 @@ export * from "./createList";
 export * from "./createNewIssue";
 export * from "./fileExists";
 export * from "./getAllTests";
-export * from "./getConfiguration";
 export * from "./getLastResultError";
+export * from "./processAttachments";

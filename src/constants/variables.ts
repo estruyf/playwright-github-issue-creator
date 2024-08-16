@@ -11,4 +11,6 @@ export const VARIABLES = {
   closeOnSuccessMsg: "close-on-success-msg",
   jobSummary: "job-summary",
   quite: "quite",
+  azureContainerUrl: "azure_container_url",
+  azureContainerSas: "azure_container_sas",
 };
