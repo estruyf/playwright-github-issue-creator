@@ -59,7 +59,7 @@ The following example shows the minimal configuration to use the GitHub Action:
 
 ```yaml
 - name: Playwright Issue Creator
-  if: !cancelled() # Only run the action if the job is not cancelled
+  if: ${{ !cancelled() }} # Only run the action if the job is not cancelled
   uses: estruyf/playwright-github-issue-creator@v1.3.0
   with:
     report-path: results.json
@@ -69,7 +69,7 @@ The following example shows the full configuration to use the GitHub Action:
 
 ```yaml
 - name: Playwright Issue Creator
-  if: !cancelled() # Only run the action if the job is not cancelled
+  if: ${{ !cancelled() }} # Only run the action if the job is not cancelled
   uses: estruyf/playwright-github-issue-creator@v1.3.0
   with:
     github-token: ${{ secrets.PAT_TOKEN }}
